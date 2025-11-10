@@ -1,4 +1,3 @@
-// File: MovieDetailController.java
 package com.example.demo;
 
 import javafx.concurrent.Task;
@@ -7,14 +6,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane; // <-- Ganti BorderPane
 import javafx.scene.paint.Color;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class MovieDetailController {
 
-    @FXML private BorderPane detailPane;
+    @FXML private AnchorPane detailPane; // <-- Ganti BorderPane
     @FXML private ImageView posterImageView;
     @FXML private Label titleLabel;
     @FXML private Label directorLabel;
@@ -73,19 +73,16 @@ public class MovieDetailController {
                 Map<Integer, Integer> hueHistogram = new HashMap<>();
                 int maxCount = 0;
                 int dominantHue = 0;
-                int sampleStep = 10; // Cek 1 dari 10 pixel
+                int sampleStep = 10;
 
                 for (int y = 0; y < height; y += sampleStep) {
                     for (int x = 0; x < width; x += sampleStep) {
                         Color pixel = pixelReader.getColor(x, y);
-
-                        // Abaikan warna pudar
                         if (pixel.getSaturation() > 0.2 && pixel.getBrightness() > 0.2 && pixel.getBrightness() < 0.9) {
                             int hue = (int) pixel.getHue();
                             int hueGroup = (hue / 10) * 10;
                             int count = hueHistogram.getOrDefault(hueGroup, 0) + 1;
                             hueHistogram.put(hueGroup, count);
-
                             if (count > maxCount) {
                                 maxCount = count;
                                 dominantHue = hueGroup;
@@ -95,7 +92,7 @@ public class MovieDetailController {
                 }
 
                 if (maxCount == 0) {
-                    return null; // Tidak ada warna dominan
+                    return null;
                 }
 
                 // Buat warna baru (gelap dan pudar)
@@ -111,8 +108,13 @@ public class MovieDetailController {
                         (int) (dominantColor.getGreen() * 255),
                         (int) (dominantColor.getBlue() * 255));
 
-                // Terapkan ke background panel detail
-                detailPane.setStyle("-fx-background-color: " + hexColor);
+                // --- PERBAIKAN: Terapkan GRADASI, bukan warna solid ---
+                // (Ini mengambil warna dari :root di CSS)
+                String gradientStyle = String.format(
+                        "-fx-background-color: linear-gradient(to bottom, %s 0%%, -background-dark 100%%);",
+                        hexColor
+                );
+                detailPane.setStyle(gradientStyle);
             }
         });
 

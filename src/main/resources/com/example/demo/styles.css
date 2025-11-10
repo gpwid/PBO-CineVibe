@@ -1,4 +1,4 @@
-/* File: styles.css (Versi Dark Mode V3 - Font Inter + Center) */
+/* File: styles.css (Versi Dark Mode V3 - Font Inter + Detail) */
 
 .root {
     -primary-color: #536DFE; /* Biru/Ungu Aksen */
@@ -44,24 +44,12 @@
 .combo-box-popup .list-view .list-cell { -fx-text-fill: -text-medium; -fx-background-color: -card-background; }
 .combo-box-popup .list-view .list-cell:hover { -fx-background-color: -primary-color; -fx-text-fill: white; }
 
-/* --- ScrollPane & TilePane (PERUBAHAN MARGIN & CENTER) --- */
-.scroll-pane {
-    -fx-background-color: -background-dark;
-    -fx-background-insets: 0;
-    -fx-padding: 0;
-    -fx-border-color: -border-color;
-    -fx-border-width: 1 0 0 0;
-}
-.scroll-pane .viewport {
-    -fx-background-color: transparent;
-}
-.tile-pane {
-    -fx-background-color: -background-dark;
-    -fx-padding: 15px;
-    -fx-alignment: center; /* <-- PERBAIKAN UNTUK CENTER */
-}
+/* --- ScrollPane & TilePane (Panel Utama) --- */
+.scroll-pane { -fx-background-color: -background-dark; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: -border-color; -fx-border-width: 1 0 0 0; }
+.scroll-pane .viewport { -fx-background-color: transparent; }
+.tile-pane { -fx-background-color: -background-dark; -fx-padding: 15px; -fx-alignment: center; /* Menengahkan kartu */ }
 
-/* --- STYLE SCROLLBAR BARU --- */
+/* --- Style Scrollbar Kustom --- */
 .scroll-bar:vertical, .scroll-bar:horizontal { -fx-background-color: -background-dark; -fx-pref-width: 10; -fx-pref-height: 10; -fx-background-radius: 5px; }
 .scroll-bar .track { -fx-background-color: transparent; -fx-border-color: transparent; }
 .scroll-bar .thumb { -fx-background-color: #555; -fx-background-radius: 5px; }
@@ -76,17 +64,71 @@
 .movie-card .movie-detail-label { -fx-font-size: 13px; -fx-font-weight: 500; -fx-text-fill: -text-light; }
 .movie-card .movie-description-label { -fx-font-size: 13px; -fx-font-style: italic; -fx-text-fill: -text-medium; -fx-padding-top: 8px; }
 
-/* --- STYLING PANEL DETAIL --- */
-/* (Style ini tidak akan terpakai sampai Anda pindah ke panel detail,
-tapi aman untuk diletakkan di sini) */
-.detail-pane { -fx-background-color: -background-light; }
-.scroll-pane-detail { -fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; }
-.scroll-pane-detail .viewport { -fx-background-color: transparent; }
+.detail-pane {
+    /* Warna fallback jika gradien gagal */
+    -fx-background-color: -background-light;
+}
 
-.detail-pane .button { -fx-background-color: rgba(255, 255, 255, 0.2); -fx-text-fill: white; -fx-font-weight: 700; -fx-border-color: rgba(255, 255, 255, 0.5); -fx-border-radius: 5px; }
+/* ScrollPane khusus untuk panel detail */
+.scroll-pane-detail {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.scroll-pane-detail .viewport {
+    -fx-background-color: transparent;
+}
+/* Sembunyikan border atas ScrollPane di panel detail */
+.scroll-pane-detail {
+    -fx-border-width: 0;
+}
+
+/* Tombol "Kembali" */
+.detail-pane .button {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-border-radius: 5px;
+}
 .detail-pane .button:hover { -fx-background-color: rgba(255, 255, 255, 0.4); }
-.detail-poster { -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 20, 0.3, 0, 5); -fx-background-radius: 8px; -fx-border-radius: 8px; }
-.detail-title { -fx-font-size: 36px; -fx-font-weight: 700; -fx-text-fill: white; -fx-text-alignment: center; }
-.detail-subtitle { -fx-font-size: 16px; -fx-font-weight: 500; -fx-text-fill: -text-medium; -fx-text-alignment: center; }
-.detail-header { -fx-font-size: 18px; -fx-font-weight: 700; -fx-text-fill: white; -fx-border-color: -border-color; -fx-border-width: 0 0 1 0; -fx-padding-bottom: 5px; }
-.detail-description { -fx-font-size: 15px; -fx-font-weight: 400; -fx-text-fill: -text-medium; -fx-line-spacing: 4px; }
+
+/* Poster di panel detail */
+.detail-poster {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 20, 0.3, 0, 5);
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+}
+
+/* --- PERBAIKAN RATA KIRI SESUAI MOCKUP --- */
+
+/* Teks Judul */
+.detail-title {
+    -fx-font-size: 36px;
+    -fx-font-weight: 700;
+    -fx-text-fill: white;
+    -fx-text-alignment: LEFT; /* <-- Ganti ke Rata Kiri */
+}
+/* Teks Sutradara/Aktor */
+.detail-subtitle {
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+    -fx-text-fill: -text-medium;
+    -fx-text-alignment: LEFT; /* <-- Ganti ke Rata Kiri */
+}
+/* Label "Deskripsi:" */
+.detail-header {
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-text-fill: white;
+    -fx-border-color: -border-color;
+    -fx-border-width: 0 0 1 0; /* Garis bawah */
+    -fx-padding-bottom: 5px;
+}
+/* Teks Deskripsi */
+.detail-description {
+    -fx-font-size: 15px;
+    -fx-font-weight: 400;
+    -fx-text-fill: -text-medium;
+    -fx-line-spacing: 4px;
+}

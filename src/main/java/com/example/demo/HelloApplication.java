@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class HelloApplication extends Application {
 
@@ -36,6 +37,7 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(mainViewRoot, 1200, 800);
         stage.setTitle("CineVibe Recommender");
         stage.setScene(scene);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
         stage.show();
     }
 
