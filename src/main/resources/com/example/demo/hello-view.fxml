@@ -37,7 +37,7 @@
 
     <Label fx:id="recommendationLabel" text="Hasil Rekomendasi:" visible="false" />
 
-    <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true" style="-fx-padding-top: 10;">
+    <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true" style="-fx-padding-top: 40;">
         <content>
             <TilePane fx:id="resultTilePane" hgap="15.0" vgap="15.0" />
         </content>

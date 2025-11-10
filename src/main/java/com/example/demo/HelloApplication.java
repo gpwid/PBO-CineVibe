@@ -13,15 +13,16 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         try {
-            Font.loadFont(getClass().getResourceAsStream("/com/example/demo/Roboto-Regular.ttf"), 10);
-            Font.loadFont(getClass().getResourceAsStream("/com/example/demo/Roboto-Bold.ttf"), 10);
-            Font.loadFont(getClass().getResourceAsStream("/com/example/demo/Roboto-Italic.ttf"), 10);
+            // Kita sekarang memuat font "Inter"
+            Font.loadFont(getClass().getResourceAsStream("Inter-Regular.ttf"), 10);
+            Font.loadFont(getClass().getResourceAsStream("Inter-Bold.ttf"), 10);
+            Font.loadFont(getClass().getResourceAsStream("Inter-Italic.ttf"), 10);
         } catch (Exception e) {
-            System.err.println("Gagal memuat font Roboto. Menggunakan font default.");
+            System.err.println("Gagal memuat font Inter. Menggunakan font default sistem.");
             // e.printStackTrace(); // Uncomment untuk debug jika font tidak termuat
         }
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 440);
+        Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
         stage.setTitle("CineVibe");
         stage.setScene(scene);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
