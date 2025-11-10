@@ -1,0 +1,99 @@
+/* File: styles.css */
+
+/* --- Styling Global (Seluruh Aplikasi) --- */
+
+/* .root adalah "body" dari aplikasi JavaFX */
+.root {
+    -fx-background-color: #F4F7F6; /* Latar belakang abu-abu sangat muda */
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+/* --- Styling Kontrol Input --- */
+
+.text-field {
+    -fx-border-color: #B0BEC5;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 14px;
+    -fx-padding: 5px 10px;
+}
+
+.text-field:focused {
+    -fx-border-color: #0078D7;
+    -fx-border-width: 2px;
+}
+
+.button {
+    -fx-background-color: #0078D7; /* Biru modern */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 15px;
+}
+
+.button:hover {
+    -fx-background-color: #005A9E; /* Biru lebih gelap saat disentuh */
+    -fx-cursor: hand;
+}
+
+.check-box .box {
+    -fx-border-color: #0078D7;
+    -fx-border-radius: 3px;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #0078D7;
+}
+
+/* --- Styling Hasil (Kartu Film) --- */
+
+/* Ini adalah target dari styleClass="movie-card" yang kita buat */
+.movie-card {
+    -fx-background-color: #FFFFFF; /* Latar belakang kartu putih */
+    -fx-background-radius: 8px; /* Sudut melengkung */
+    -fx-border-radius: 8px;
+    -fx-border-color: #E0E0E0; /* Garis batas abu-abu */
+    -fx-padding: 15px;
+
+    /* Ini adalah efek bayangan yang membuatnya "melayang" */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.3, 0, 3);
+
+    /* Transisi halus saat di-hover */
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+.movie-card:hover {
+    /* Sedikit terangkat dan bayangan lebih jelas saat disentuh */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0.5, 0, 4);
+    -fx-translate-y: -3px;
+    -fx-cursor: hand;
+}
+
+/* --- Styling Teks di Dalam Kartu --- */
+
+/* Ini target dari styleClass="movie-title-label" */
+.movie-title-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1A2B4C; /* Biru tua */
+}
+
+/* Ini target dari styleClass="movie-detail-label" */
+.movie-detail-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #555555; /* Abu-abu tua */
+}
+
+/* Ini target dari styleClass="movie-description-label" */
+.movie-description-label {
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
+    -fx-text-fill: #777777; /* Abu-abu muda */
+}
+
+/* --- Styling Kotak Hasil (TilePane) --- */
+.tile-pane {
+    -fx-background-color: #E8ECEF; /* Latar belakang area hasil */
+    -fx-padding: 15px;
+}

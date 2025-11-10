@@ -1,0 +1,168 @@
+artist_id,artist_name,vibe_energy,vibe_positivity,vibe_romance,vibe_melancholy,vibe_darkness,vibe_epic,vibe_complexity,vibe_acoustic,vibe_experimental
+1,The Marias,2,9,9,2,2,2,2,9,2
+2,Radiohead,2,1,1,10,10,9,10,2,10
+3,The Smiths,2,2,2,10,2,2,2,9,2
+4,TV Girl,2,9,9,9,2,2,2,9,2
+5,Nirvana,10,1,1,2,9,9,9,2,10
+6,My Chemical Romance,10,1,1,9,10,10,9,2,9
+7,Taylor Swift,9,10,10,1,1,9,2,9,1
+8,NIKI,2,9,10,2,2,2,2,9,2
+9,Mac DeMarco,2,9,2,2,2,2,2,10,9
+10,"Tyler, The Creator",10,2,2,2,9,9,10,2,10
+11,Maliq & D'essentials,2,9,10,2,2,2,2,9,2
+12,Reality Club,9,9,9,2,2,9,2,2,2
+13,Playboi Carti,10,1,1,1,10,9,2,1,10
+14,Travis Scott,10,1,1,1,10,10,2,1,2
+15,Daniel Caesar,2,9,10,2,2,2,2,9,2
+16,Frank Ocean,2,2,9,9,2,2,9,2,10
+17,PinkPanthress,10,10,2,1,1,2,2,1,9
+18,beabadoobee,9,9,9,2,2,2,2,9,2
+19,Deftones,10,1,1,10,10,10,9,2,9
+20,Banda Naira,1,2,9,10,2,1,1,10,1
+21,Adrianne Lenker,1,2,2,10,2,1,1,10,1
+22,Big Thief,2,2,2,10,2,2,2,10,2
+23,Cigarettes After Sex,1,10,10,9,2,1,1,9,1
+24,The 1975,9,10,10,1,1,9,2,2,2
+25,Laufey,1,10,10,1,1,1,1,10,1
+26,Alex G,2,2,2,9,2,2,2,9,9
+27,Coldplay,9,10,2,1,1,10,2,2,1
+28,Imagine Dragons,10,10,1,1,1,10,2,2,1
+29,Jeff Buckley,2,2,10,10,2,2,9,10,9
+30,Kanye West,10,2,2,2,9,10,10,1,10
+31,JAY-Z,9,9,1,1,2,10,2,1,2
+32,Rihanna,9,10,10,1,1,9,2,1,2
+33,SIA,9,10,2,2,1,10,2,2,2
+34,Aurora,2,10,2,2,2,9,2,2,10
+35,Yeat,10,1,1,1,10,9,2,1,10
+36,SZA,2,9,10,9,2,2,2,9,2
+37,Future,10,1,1,1,10,2,2,1,2
+38,Metro Boomin,10,1,1,1,10,2,2,1,2
+39,Drake,2,9,10,2,2,2,2,1,2
+40,Kendrick Lamar,10,2,1,2,9,10,10,2,10
+41,MF DOOM,2,1,1,2,10,2,10,2,10
+42,Lil Uzi Vert,10,1,1,1,10,9,2,1,10
+43,Don Toliver,9,9,2,1,2,2,2,1,2
+44,21 Savage,2,1,1,1,10,2,2,1,2
+45,Pink Floyd,2,1,2,10,9,10,10,2,10
+46,KISS,10,10,2,1,2,10,2,2,2
+47,AC/DC,10,10,1,1,1,9,1,2,1
+48,Black Sabbath,2,1,1,10,10,10,9,2,10
+49,Queen,10,10,9,1,1,10,2,2,2
+50,Guns N' Roses,10,2,9,1,9,10,2,2,2
+51,Arctic Monkeys,9,2,2,9,2,2,9,2,2
+52,Lana Del Rey,2,9,9,9,2,2,9,9,9
+53,Billie Eilish,9,9,9,2,2,9,2,9,2
+54,Tame Impala,9,2,2,9,9,9,9,2,9
+55,Phoebe Bridgers,2,2,9,9,2,2,9,9,2
+56,Mitski,9,2,2,9,2,2,9,2,2
+57,Clairo,9,2,2,9,2,2,9,2,2
+58,Arctic Lake,2,9,9,9,2,2,9,9,9
+59,The Weeknd,9,9,9,9,2,2,9,9,9
+60,Joji,9,9,9,9,2,2,9,9,9
+61,Hozier,2,2,9,9,2,2,9,9,2
+62,Bon Iver,2,2,9,9,2,2,9,9,2
+63,Fleetwood Mac,9,9,9,2,2,9,2,9,2
+64,The Neighbourhood,9,2,2,9,2,2,9,2,2
+65,Beach House,2,9,9,9,2,2,9,9,9
+66,Paramore,9,2,2,9,9,9,9,2,2
+67,The Strokes,9,2,2,9,2,2,9,2,2
+68,Blur,9,2,2,9,2,2,9,2,2
+69,Gorillaz,9,2,2,9,9,9,9,2,9
+70,Lorde,9,2,2,9,2,2,9,2,2
+71,Olivia Rodrigo,9,9,9,2,2,9,2,9,2
+72,Arctic Monkeys (Early Era),9,2,2,9,9,9,9,2,2
+73,Rex Orange County,9,2,2,9,2,2,9,2,2
+74,Clairo (Sling Era),2,2,9,9,2,2,9,9,2
+75,Dayglow,9,2,2,9,2,2,9,2,2
+76,Wallows,9,2,2,9,2,2,9,2,2
+77,The Japanese House,2,9,9,9,2,2,9,9,9
+78,Cigarette After Rain,2,9,9,9,2,2,9,9,9
+79,Steve Lacy,9,9,9,9,2,2,9,9,9
+80,Kali Uchis,9,9,9,9,2,2,9,9,9
+81,ROSALÍA,9,9,9,9,2,2,9,9,9
+82,FKA twigs,9,2,2,9,9,9,9,2,9
+83,Björk,9,2,2,9,9,9,9,2,9
+84,M83,9,2,2,9,9,9,9,2,9
+85,CHVRCHES,9,9,2,2,2,9,9,2,9
+86,Florence + The Machine,9,9,9,2,2,9,2,9,2
+87,Grimes,9,2,2,9,9,9,9,2,9
+88,The Cure,9,2,2,9,9,2,9,2,9
+89,Joy Division,9,2,2,9,9,2,9,2,9
+90,LCD Soundsystem,9,9,2,2,2,9,9,2,9
+91,Depeche Mode,9,2,2,9,9,2,9,2,9
+92,Talking Heads,9,9,2,2,2,9,9,2,9
+93,Kraftwerk,9,2,2,9,9,9,9,2,9
+94,Daft Punk,9,9,2,2,2,9,9,2,9
+95,Justice,9,9,2,2,2,9,9,2,9
+96,Nine Inch Nails,9,2,2,9,9,9,9,2,2
+97,Tool,9,2,2,9,9,9,9,2,2
+98,Muse,9,2,2,9,9,9,9,2,2
+99,Radiohead (Early),9,2,2,9,2,2,9,2,2
+100,The Smashing Pumpkins,9,2,2,9,9,9,9,2,2
+101,Portishead,9,2,2,9,9,9,9,2,9
+102,Massive Attack,9,2,2,9,9,9,9,2,9
+103,Aphex Twin,9,2,2,9,9,9,9,2,9
+104,Boards of Canada,9,2,2,9,9,9,9,2,9
+105,Sigur Rós,2,2,2,9,2,9,9,9,9
+106,Explosions in the Sky,2,2,2,9,2,9,9,9,9
+107,Godspeed You! Black Emperor,2,2,2,9,2,9,9,9,9
+108,Cocteau Twins,2,9,9,9,2,2,9,9,9
+109,Slowdive,2,2,9,9,2,9,9,9,9
+110,Ride,2,2,9,9,2,9,9,9,9
+111,My Bloody Valentine,2,2,9,9,2,9,9,9,9
+112,The Cranberries,9,2,2,9,2,2,9,2,2
+113,Alvvays,2,9,9,9,2,2,9,9,9
+114,Men I Trust,2,9,9,9,2,2,9,9,9
+115,TOPS,2,9,9,9,2,2,9,9,9
+116,Beach Fossils,2,9,9,9,2,2,9,9,9
+117,DIIV,2,2,9,9,2,9,9,9,9
+118,Wild Nothing,2,9,9,9,2,2,9,9,9
+119,Interpol,9,2,2,9,9,2,9,2,9
+120,The National,9,2,2,9,2,2,9,2,2
+121,Editors,9,2,2,9,9,2,9,2,9
+122,Arcade Fire,9,2,2,9,2,2,9,2,2
+123,Broken Social Scene,9,2,2,9,2,2,9,2,2
+124,Death Cab for Cutie,9,2,2,9,2,2,9,2,2
+125,The Postal Service,9,9,2,2,2,9,9,2,9
+126,Oasis,9,2,2,9,2,2,9,2,2
+127,Blur (Modern Life Era),9,2,2,9,2,2,9,2,2
+128,Pulp,9,2,2,9,2,2,9,2,2
+129,Suede,9,2,2,9,2,2,9,2,2
+130,The Verve,9,2,2,9,2,2,9,2,2
+131,Keane,9,9,9,2,2,9,2,9,2
+132,Snow Patrol,9,2,2,9,2,2,9,2,2
+133,Paramore (After Laughter),9,2,2,9,9,9,9,2,2
+134,Foals,9,9,9,2,2,9,2,9,2
+135,Two Door Cinema Club,9,2,2,9,2,2,9,2,2
+136,Alt-J,9,2,2,9,2,2,9,2,2
+137,The xx,9,2,2,9,2,2,9,2,2
+138,London Grammar,2,9,9,9,2,2,9,9,9
+139,Daughter,2,9,9,9,2,2,9,9,9
+140,Angus & Julia Stone,2,2,9,9,2,2,9,9,2
+141,Iron & Wine,2,2,9,9,2,2,9,9,2
+142,Ben Howard,2,2,9,9,2,2,9,9,2
+143,José González,2,2,9,9,2,2,9,9,2
+144,Damien Rice,2,2,9,9,2,2,9,9,2
+145,Norah Jones,2,2,9,9,2,2,9,9,2
+146,Adele,9,9,9,9,2,2,9,9,9
+147,Sam Smith,9,9,9,2,2,9,2,9,2
+148,Lewis Capaldi,9,9,9,2,2,9,2,9,2
+149,Ed Sheeran,9,9,9,2,2,9,2,9,2
+150,Agnez Mo,9,9,9,2,2,9,2,9,2
+151,Isyana Sarasvati,9,9,2,2,2,9,9,2,9
+152,Rossa,9,9,9,9,2,9,9,2,2
+153,Rich Brian,9,9,9,9,2,2,9,9,2
+154,Tulus,9,2,2,2,9,9,9,2,9
+155,Pamungkas,2,9,10,2,2,2,2,9,2
+156,Mahalini Raharja,9,9,9,9,2,2,9,9,2
+157,Hindia,9,9,9,9,2,2,9,9,2
+158,Afgan,2,9,9,9,2,2,2,9,2
+159,Judika,9,9,2,9,2,2,9,2,9
+160,Maudy Ayunda,9,9,9,9,2,2,2,9,2
+161,Anggun,9,9,2,9,2,9,9,2,2
+162,Fourtwnty,2,9,9,9,2,2,9,9,2
+163,Gita Gutawa,9,9,9,2,2,9,9,2,9
+164,Rizky Febian,2,9,9,9,2,2,9,9,2
+165,Sheryl Sheinafia,2,9,9,9,2,2,9,9,2
+166,Lyodra Ginting,9,9,9,9,2,2,2,9,2
+167,Nadin Amizah,9,9,9,2,2,2,9,2,2
