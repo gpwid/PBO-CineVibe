@@ -2,47 +2,44 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <?import java.lang.String?>
-<VBox alignment="TOP_CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20"
+<VBox fx:id="rootVBox" alignment="TOP_CENTER" spacing="15.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20"
       fx:controller="com.example.demo.HelloController"
-      style="-fx-padding: 20;" prefHeight="800.0" prefWidth="1200.0">
-
+      prefHeight="800.0" prefWidth="1200.0">
     <stylesheets>
         <String fx:value="/com/example/demo/styles.css" />
     </stylesheets>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
 
-    <Label fx:id="appTitle" text="CineVibe Recommender" styleClass="app-title"/> <Label text="Masukkan 1 nama artis untuk menemukan film yang cocok:"/>
+    <Label fx:id="appTitle" text="CineVibe Recommender" />
 
-    <TextField fx:id="searchField" promptText="Contoh: Radiohead" maxWidth="300.0"/>
+    <Label text="Masukkan 1 nama artis untuk menemukan film yang cocok:" />
 
-    <Label text="Filter berdasarkan Genre (Opsional):" style="-fx-font-size: 14px; -fx-padding-top: 10;"/>
-    <HBox fx:id="genreFilterBox" alignment="CENTER" spacing="10.0" prefWidth="1000.0" style="-fx-padding: 10;">
-        <children>
-            <CheckBox fx:id="cb_action" text="Action"/>
-            <CheckBox fx:id="cb_drama" text="Drama"/>
-            <CheckBox fx:id="cb_comedy" text="Comedy"/>
-            <CheckBox fx:id="cb_romance" text="Romance"/>
-            <CheckBox fx:id="cb_scifi" text="Sci-Fi"/>
-            <CheckBox fx:id="cb_thriller" text="Thriller"/>
-        </children>
+    <TextField fx:id="searchField" promptText="Contoh: Radiohead" maxWidth="400.0" />
+
+    <HBox alignment="CENTER" spacing="15.0">
+        <Button fx:id="recommendButton" text="Cari Rekomendasi" onAction="#onRecommendClick" />
+
+        <ComboBox fx:id="genreFilterDropdown" promptText="Filter berdasarkan Genre..." prefWidth="220.0" />
     </HBox>
 
-    <Button fx:id="recommendButton" text="Cari Rekomendasi" onAction="#onRecommendClick" style="-fx-font-size: 14px;"/>
+    <Label fx:id="loadingLabel" text="Mencari..." visible="false" />
 
-    <Label fx:id="loadingLabel" text="Mencari..." visible="false" style="-fx-text-fill: blue;"/>
+    <Label fx:id="recommendationLabel" text="Hasil Rekomendasi:" visible="false" />
 
-    <Label fx:id="recommendationLabel" text="Hasil Rekomendasi:" style="-fx-font-size: 16px; -fx-padding-top: 15;" /> <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true" style="-fx-padding-top: 15;">
+    <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true" style="-fx-padding-top: 10;">
         <content>
-            <TilePane fx:id="resultTilePane" hgap="15.0" vgap="15.0"/>
+            <TilePane fx:id="resultTilePane" hgap="15.0" vgap="15.0" />
         </content>
     </ScrollPane>
 

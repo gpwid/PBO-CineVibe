@@ -1,195 +1,140 @@
-/* File: styles.css (Versi Dark Mode) */
+/* File: styles.css (Versi Dark Mode V2) */
 
-/* --- Palet Warna (Dark Mode) --- */
 .root {
-    /* Warna Aksen (Biarkan tetap cerah agar 'pop') */
-    primary-color: #3f51b5; /* Indigo */
-    primary-light-color: #757de8;
-    primary-dark-color: #002984;
-    accent-color: #ff4081; /* Pink */
+    -primary-color: #536DFE; /* Warna Aksen Biru/Ungu */
+    -primary-light-color: #757de8;
 
-    /* --- INVERSI WARNA --- */
-    /* Latar belakang utama (Gelap Pekat) */
-    background-light: #1e1e1e;
-    /* Latar belakang sekunder (Gelap) */
-    background-dark: #121212;
-    /* Latar belakang kartu (Sedikit lebih cerah dari BG utama) */
-    card-background: #2C2C2C;
+    -background-light: #1e1e1e; /* BG Utama */
+    -background-dark: #121212; /* BG ScrollPane */
+    -card-background: #2C2C2C; /* BG Kartu & Input */
 
-    /* Teks utama (Abu-abu Cerah) */
-    text-dark: #E0E0E0;
-    /* Teks sekunder (Abu-abu) */
-    text-medium: #BDBDBD;
-    /* Teks pudar (Abu-abu Gelap) */
-    text-light: #757575;
+    -text-dark: #E0E0E0; /* Teks Cerah */
+    -text-medium: #BDBDBD; /* Teks Sekunder */
+    -text-light: #757575; /* Teks Pudar */
 
-    /* Garis batas (Abu-abu Gelap) */
-    border-color: #424242;
-
-    shadow-color: rgba(0, 0, 0, 0.2);
-    shadow-strong-color: rgba(0, 0, 0, 0.3);
+    -border-color: #424242; /* Garis batas */
+    -shadow-color: rgba(0, 0, 0, 0.2);
 }
 
-/* --- Global Styling (.root = Seluruh Aplikasi) --- */
+/* --- Global --- */
 .root {
-    -fx-background-color: background-light;
+    -fx-background-color: -background-light;
     -fx-font-family: "Roboto", "Segoe UI", sans-serif;
     -fx-font-size: 14px;
-    -fx-text-fill: text-dark;
+    -fx-text-fill: -text-dark;
 }
 
 /* --- Judul & Label --- */
 .label#appTitle {
     -fx-font-size: 32px;
     -fx-font-weight: bold;
-    -fx-text-fill: white; /* Teks putih cerah untuk judul */
+    -fx-text-fill: white;
     -fx-padding: 10px 0 0 0;
 }
-
-.label {
-    -fx-text-fill: text-medium; /* Teks abu-abu cerah untuk label biasa */
-}
+.label { -fx-text-fill: -text-medium; }
+.label#loadingLabel { -fx-text-fill: -primary-light-color; -fx-font-size: 16px; -fx-font-weight: bold; }
+.label#recommendationLabel { -fx-font-size: 16px; -fx-padding-top: 15; -fx-text-fill: white; }
 
 /* --- Input & Tombol --- */
 .text-field {
-    -fx-background-color: card-background; /* BG input gelap */
-    -fx-text-fill: text-dark; /* Teks input cerah */
-    -fx-border-color: border-color;
+    -fx-background-color: -card-background;
+    -fx-text-fill: -text-dark;
+    -fx-border-color: -border-color;
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
     -fx-font-size: 14px;
     -fx-padding: 8px 12px;
 }
-
 .text-field:focused {
-    -fx-border-color: primary-color;
+    -fx-border-color: -primary-color;
     -fx-border-width: 2px;
-    -fx-background-insets: -1px; /* Kompensasi border */
+    -fx-background-insets: -1px;
 }
-
 .button {
-    /* Biarkan tombol tetap cerah agar menonjol */
-    -fx-background-color: primary-color;
+    -fx-background-color: -primary-color;
     -fx-text-fill: white;
     -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-background-radius: 5px;
     -fx-padding: 10px 20px;
-    -fx-effect: dropshadow(gaussian, shadow-strong-color, 5, 0, 0, 2);
     -fx-cursor: hand;
-    -fx-transition: all 0.2s ease-in-out;
+}
+.button:hover { -fx-background-color: -primary-light-color; }
+
+/* --- Dropdown (ComboBox) Styling --- */
+.combo-box {
+    -fx-background-color: -card-background;
+    -fx-border-color: -border-color;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+/* Style teks di dalam kotak */
+.combo-box .list-cell {
+    -fx-text-fill: -text-dark;
+    -fx-background-color: -card-background;
+    -fx-padding: 5px 10px;
+}
+/* Style panah */
+.combo-box .arrow {
+    -fx-background-color: -primary-color;
+    -fx-shape: "M 0 0 L 4 4 L 8 0 Z"; /* Bentuk panah */
+    -fx-padding: 4px;
+}
+/* Style daftar popup yang muncul */
+.combo-box-popup .list-view {
+    -fx-background-color: -card-background;
+    -fx-border-color: -border-color;
+}
+.combo-box-popup .list-view .list-cell {
+    -fx-text-fill: -text-medium;
+    -fx-background-color: -card-background;
+}
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: -primary-color;
+    -fx-text-fill: white;
+}
+.combo-box-popup .list-view .list-cell:filled:selected {
+    -fx-background-color: -primary-light-color;
+    -fx-text-fill: white;
 }
 
-.button:hover {
-    -fx-background-color: primary-light-color;
-    -fx-effect: dropshadow(gaussian, shadow-strong-color, 8, 0, 0, 3);
+/* --- ScrollPane & TilePane --- */
+.scroll-pane {
+    -fx-background-color: -background-dark; /* BG area hasil */
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: -border-color;
+    -fx-border-width: 1 0 0 0; /* Garis di atas */
 }
-
-.button:pressed {
-    -fx-background-color: primary-dark-color;
-    -fx-effect: none;
-}
-
-/* --- CheckBox Filter Genre --- */
-.check-box {
-    -fx-text-fill: text-medium;
-    -fx-font-size: 13px;
-}
-.check-box .box {
-    -fx-border-color: border-color;
-    -fx-border-radius: 3px;
-    -fx-background-color: background-light; /* BG box gelap */
-}
-.check-box:selected .box {
-    -fx-background-color: primary-color;
-    -fx-border-color: primary-color;
-}
-.check-box:selected .box .mark {
-    -fx-background-color: white; /* Tanda centang putih */
-}
-
-/* --- Loading Label --- */
-.label#loadingLabel {
-    -fx-text-fill: primary-light-color; /* Biru cerah agar terlihat */
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-}
-
-/* --- TilePane (Area Kartu Film) --- */
+.scroll-pane .viewport { -fx-background-color: transparent; }
 .tile-pane {
-    -fx-background-color: background-light; /* Latar area hasil */
+    -fx-background-color: transparent;
     -fx-padding: 15px;
-    -fx-alignment: center;
+}
+.scroll-bar:vertical .thumb, .scroll-bar:horizontal .thumb {
+    -fx-background-color: #555;
+    -fx-background-radius: 5px;
+}
+.scroll-bar:vertical .thumb:hover, .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #777;
 }
 
-/* --- Movie Card Styling (styleClass="movie-card") --- */
+/* --- Movie Card (Sama seperti sebelumnya) --- */
 .movie-card {
-    -fx-background-color: card-background; /* Latar kartu gelap */
+    -fx-background-color: -card-background;
     -fx-background-radius: 8px;
-    -fx-border-color: #535353; /* Border abu-abu (lebih bersih dari shadow) */
+    -fx-border-color: #535353;
     -fx-border-radius: 8px;
     -fx-border-width: 1px;
     -fx-padding: 15px;
-    -fx-effect: none; /* Hapus bayangan, ganti dengan border */
-    -fx-cursor: default;
     -fx-transition: all 0.2s ease-in-out;
 }
-
 .movie-card:hover {
-    -fx-border-color: primary-light-color; /* Sorot border saat disentuh */
+    -fx-border-color: -primary-light-color;
     -fx-translate-y: -3px;
     -fx-cursor: hand;
 }
-
-.movie-card .image-view { /* Poster */
-    -fx-effect: none; /* Hapus bayangan poster */
-    -fx-background-color: #424242; /* Placeholder poster gelap */
-    -fx-padding: 0; /* Hapus padding agar gambar penuh */
-}
-
-/* --- Teks di Dalam Kartu --- */
-.movie-card .movie-title-label {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: text-dark; /* Teks cerah */
-    -fx-padding-top: 10px;
-}
-
-.movie-card .movie-detail-label {
-    -fx-font-size: 12px;
-    -fx-text-fill: text-light; /* Teks pudar */
-}
-
-.movie-card .movie-description-label {
-    -fx-font-size: 12px;
-    -fx-font-style: italic;
-    -fx-text-fill: text-medium; /* Teks sekunder */
-    -fx-padding-top: 8px;
-    -fx-line-spacing: 2px;
-}
-
-/* --- ScrollPane (Dark Mode) --- */
-.scroll-pane {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
-    -fx-padding: 0;
-}
-.scroll-pane .viewport {
-    -fx-background-color: transparent;
-}
-.scroll-pane .scroll-bar:vertical,
-.scroll-pane .scroll-bar:horizontal {
-    -fx-background-color: background-light;
-}
-.scroll-pane .scroll-bar .thumb {
-    -fx-background-color: #555; /* Handle scroll abu-abu */
-    -fx-background-radius: 5px;
-}
-.scroll-pane .scroll-bar .thumb:hover {
-    -fx-background-color: #777;
-}
-.scroll-pane .scroll-bar .increment-button,
-.scroll-pane .scroll-bar .decrement-button {
-    -fx-background-color: transparent;
-    -fx-padding: 0;
-}
+.movie-card .image-view { -fx-background-color: #424242; }
+.movie-card .movie-title-label { -fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: -text-dark; -fx-padding-top: 10px; }
+.movie-card .movie-detail-label { -fx-font-size: 12px; -fx-text-fill: -text-light; }
+.movie-card .movie-description-label { -fx-font-size: 12px; -fx-font-style: italic; -fx-text-fill: -text-medium; -fx-padding-top: 8px; }
