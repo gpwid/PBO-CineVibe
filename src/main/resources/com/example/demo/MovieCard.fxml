@@ -4,21 +4,25 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox fx:controller="com.example.demo.MovieCardController"
+<VBox fx:id="cardRoot" fx:controller="com.example.demo.MovieCardController"
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20"
       prefWidth="220.0" spacing="5.0"
+      styleClass="movie-card">
 
-      styleClass="movie-card"> <ImageView fx:id="posterImageView" fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
+    <ImageView fx:id="posterImageView" fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
 
     <Label fx:id="titleLabel" text="Judul Film (Loading...)" wrapText="true"
-           styleClass="movie-title-label" /> <Label fx:id="directorLabel" text="Sutradara: N/A" wrapText="true"
-                                                    styleClass="movie-detail-label"> <VBox.margin><Insets top="5.0" /></VBox.margin>
+           styleClass="movie-title-label" />
+    <Label fx:id="directorLabel" text="Sutradara: N/A" wrapText="true"
+           styleClass="movie-detail-label">
+        <VBox.margin><Insets top="5.0" /></VBox.margin>
     </Label>
 
     <Label fx:id="actorsLabel" text="Aktor: N/A" wrapText="true"
-           styleClass="movie-detail-label" /> <Label fx:id="descriptionLabel" text="Deskripsi..." wrapText="true"
-                                                     styleClass="movie-description-label"> <VBox.margin><Insets top="10.0" /></VBox.margin>
+           styleClass="movie-detail-label" />
+    <Label fx:id="descriptionLabel" text="Deskripsi..." wrapText="true"
+           styleClass="movie-description-label">
+        <VBox.margin><Insets top="10.0" /></VBox.margin>
     </Label>
 </VBox>

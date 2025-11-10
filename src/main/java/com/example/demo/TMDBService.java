@@ -22,7 +22,10 @@ public class TMDBService {
 
     // Fungsi untuk mengambil detail dasar (judul, deskripsi, poster)
     public MovieDetails getMovieDetails(int tmdbId) {
-        String url = API_BASE_URL + "/movie/" + tmdbId + "?api_key=" + API_KEY + "&language=id-ID,en-US";
+        String url = API_BASE_URL + "/movie/" + tmdbId +
+                "?api_key=" + API_KEY +
+                "&language=id-ID" +
+                "&append_to_response=translations";
         try {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -30,9 +33,25 @@ public class TMDBService {
             // Ubah JSON menjadi objek Java
             MovieDetails details = gson.fromJson(response.body(), MovieDetails.class);
 
-            // Tambahkan URL lengkap untuk poster
-            if (details != null && details.posterPath != null) {
-                details.fullPosterPath = IMAGE_BASE_URL + details.posterPath;
+            if (details != null) {
+                // 1. Cek jika deskripsi utama (Indonesia) kosong
+                if (details.overview == null || details.overview.trim().isEmpty()) {
+
+                    // 2. Coba cari terjemahan Bahasa Inggris (en)
+                    if (details.translations != null && details.translations.translations != null) {
+                        for (TranslationItem item : details.translations.translations) {
+                            if ("en".equals(item.iso_639_1)) {
+                                details.overview = item.data.overview; // Timpa dengan overview Bhs. Inggris
+                                break; // Berhenti mencari
+                            }
+                        }
+                    }
+                }
+
+                // 3. Set poster (logika ini tetap sama)
+                if (details.posterPath != null) {
+                    details.fullPosterPath = IMAGE_BASE_URL + details.posterPath;
+                }
             }
             return details;
         } catch (Exception e) {
@@ -65,6 +84,8 @@ public class TMDBService {
         public String overview;
         @SerializedName("poster_path")
         public String posterPath;
+        @SerializedName("translations")
+        public TranslationsData translations;
 
         public String fullPosterPath; // Kita isi manual
     }
@@ -114,5 +135,23 @@ public class TMDBService {
         public String name;
         @SerializedName("job")
         public String job;
+    }
+
+    public static class TranslationsData {
+        @SerializedName("translations")
+        public List<TranslationItem> translations;
+    }
+
+    public static class TranslationItem {
+        @SerializedName("iso_639_1")
+        public String iso_639_1; // Ini adalah kode bahasa, e.g., "en", "de", "fr"
+
+        @SerializedName("data")
+        public TranslationDetails data;
+    }
+
+    public static class TranslationDetails {
+        @SerializedName("overview")
+        public String overview; // Deskripsi dalam bahasa tersebut
     }
 }

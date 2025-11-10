@@ -1,4 +1,4 @@
-/* File: styles.css (Versi Dark Mode V3 - Font Inter) */
+/* File: styles.css (Versi Dark Mode V3 - Font Inter + Center) */
 
 .root {
     -primary-color: #536DFE; /* Biru/Ungu Aksen */
@@ -19,82 +19,33 @@
 /* --- Global --- */
 .root {
     -fx-background-color: -background-light;
-    /* --- PERUBAHAN FONT UTAMA --- */
     -fx-font-family: "Inter", "Segoe UI", sans-serif;
     -fx-font-size: 14px;
     -fx-text-fill: -text-dark;
 }
 
 /* --- Judul & Label --- */
-.label#appTitle {
-    -fx-font-size: 30px; /* Sedikit lebih kecil agar pas */
-    -fx-font-weight: 700; /* Bold */
-    -fx-text-fill: white;
-    -fx-padding: 10px 0 0 0;
-}
+.label#appTitle { -fx-font-size: 30px; -fx-font-weight: 700; -fx-text-fill: white; -fx-padding: 10px 0 0 0; }
 .label { -fx-text-fill: -text-medium; }
 .label#loadingLabel { -fx-text-fill: -primary-light-color; -fx-font-size: 16px; -fx-font-weight: 600; }
 .label#recommendationLabel { -fx-font-size: 16px; -fx-padding-top: 15; -fx-text-fill: white; -fx-font-weight: 600; }
 
 /* --- Input & Tombol --- */
-.text-field {
-    -fx-background-color: -card-background;
-    -fx-text-fill: -text-dark;
-    -fx-border-color: -border-color;
-    -fx-border-radius: 4px;
-    -fx-background-radius: 4px;
-    -fx-font-size: 14px;
-    -fx-padding: 8px 12px;
-}
-.text-field:focused {
-    -fx-border-color: -primary-color;
-    -fx-border-width: 2px;
-    -fx-background-insets: -1px;
-}
-.button {
-    -fx-background-color: -primary-color;
-    -fx-text-fill: white;
-    -fx-font-size: 15px;
-    -fx-font-weight: 600; /* Bold */
-    -fx-background-radius: 5px;
-    -fx-padding: 10px 20px;
-    -fx-cursor: hand;
-}
+.text-field { -fx-background-color: -card-background; -fx-text-fill: -text-dark; -fx-border-color: -border-color; -fx-border-radius: 4px; -fx-background-radius: 4px; -fx-font-size: 14px; -fx-padding: 8px 12px; }
+.text-field:focused { -fx-border-color: -primary-color; -fx-border-width: 2px; -fx-background-insets: -1px; }
+.button { -fx-background-color: -primary-color; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: 600; -fx-background-radius: 5px; -fx-padding: 10px 20px; -fx-cursor: hand; }
 .button:hover { -fx-background-color: -primary-light-color; }
 
 /* --- Dropdown (ComboBox) Styling --- */
-.combo-box {
-    -fx-background-color: -card-background;
-    -fx-border-color: -border-color;
-    -fx-border-radius: 4px;
-    -fx-background-radius: 4px;
-}
-.combo-box .list-cell {
-    -fx-text-fill: -text-dark;
-    -fx-background-color: -card-background;
-    -fx-padding: 5px 10px;
-}
-.combo-box .arrow {
-    -fx-background-color: -primary-color;
-    -fx-shape: "M 0 0 L 4 4 L 8 0 Z";
-    -fx-padding: 4px;
-}
-.combo-box-popup .list-view {
-    -fx-background-color: -card-background;
-    -fx-border-color: -border-color;
-}
-.combo-box-popup .list-view .list-cell {
-    -fx-text-fill: -text-medium;
-    -fx-background-color: -card-background;
-}
-.combo-box-popup .list-view .list-cell:hover {
-    -fx-background-color: -primary-color;
-    -fx-text-fill: white;
-}
+.combo-box { -fx-background-color: -card-background; -fx-border-color: -border-color; -fx-border-radius: 4px; -fx-background-radius: 4px; }
+.combo-box .list-cell { -fx-text-fill: -text-dark; -fx-background-color: -card-background; -fx-padding: 5px 10px; }
+.combo-box .arrow { -fx-background-color: -primary-color; -fx-shape: "M 0 0 L 4 4 L 8 0 Z"; -fx-padding: 4px; }
+.combo-box-popup .list-view { -fx-background-color: -card-background; -fx-border-color: -border-color; }
+.combo-box-popup .list-view .list-cell { -fx-text-fill: -text-medium; -fx-background-color: -card-background; }
+.combo-box-popup .list-view .list-cell:hover { -fx-background-color: -primary-color; -fx-text-fill: white; }
 
-/* --- ScrollPane & TilePane (PERUBAHAN MARGIN) --- */
+/* --- ScrollPane & TilePane (PERUBAHAN MARGIN & CENTER) --- */
 .scroll-pane {
-    /* Latar belakang diatur ke -background-dark (lebih gelap) */
     -fx-background-color: -background-dark;
     -fx-background-insets: 0;
     -fx-padding: 0;
@@ -102,76 +53,40 @@
     -fx-border-width: 1 0 0 0;
 }
 .scroll-pane .viewport {
-    /* Viewport dibuat transparan */
     -fx-background-color: transparent;
 }
 .tile-pane {
-    /* Latar belakang TilePane disamakan dengan ScrollPane */
     -fx-background-color: -background-dark;
-    /* PADDING inilah yang akan memberi "MARGIN" visual
-      antara kartu dan tepi ScrollPane
-    */
     -fx-padding: 15px;
-    -fx-alignment: center;
+    -fx-alignment: center; /* <-- PERBAIKAN UNTUK CENTER */
 }
 
 /* --- STYLE SCROLLBAR BARU --- */
-.scroll-bar:vertical,
-.scroll-bar:horizontal {
-    -fx-background-color: -background-dark; /* Latar scrollbar */
-    -fx-pref-width: 10;
-    -fx-pref-height: 10;
-    -fx-background-radius: 5px;
-}
-.scroll-bar .track {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
-.scroll-bar .thumb {
-    -fx-background-color: #555; /* Warna 'handle' scroll */
-    -fx-background-radius: 5px;
-}
-.scroll-bar .thumb:hover {
-    -fx-background-color: #777;
-}
-.scroll-bar .increment-button,
-.scroll-bar .decrement-button {
-    -fx-background-color: transparent;
-    -fx-padding: 0;
-}
+.scroll-bar:vertical, .scroll-bar:horizontal { -fx-background-color: -background-dark; -fx-pref-width: 10; -fx-pref-height: 10; -fx-background-radius: 5px; }
+.scroll-bar .track { -fx-background-color: transparent; -fx-border-color: transparent; }
+.scroll-bar .thumb { -fx-background-color: #555; -fx-background-radius: 5px; }
+.scroll-bar .thumb:hover { -fx-background-color: #777; }
+.scroll-bar .increment-button, .scroll-bar .decrement-button { -fx-background-color: transparent; -fx-padding: 0; }
 
-/* --- Movie Card (Font Disesuaikan) --- */
-.movie-card {
-    -fx-background-color: -card-background;
-    -fx-background-radius: 8px;
-    -fx-border-color: #535353;
-    -fx-border-radius: 8px;
-    -fx-border-width: 1px;
-    -fx-padding: 15px;
-    -fx-transition: all 0.2s ease-in-out;
-}
-.movie-card:hover {
-    -fx-border-color: -primary-light-color;
-    -fx-translate-y: -3px;
-    -fx-cursor: hand;
-}
+/* --- Movie Card --- */
+.movie-card { -fx-background-color: -card-background; -fx-background-radius: 8px; -fx-border-color: #535353; -fx-border-radius: 8px; -fx-border-width: 1px; -fx-padding: 15px; -fx-transition: all 0.2s ease-in-out; }
+.movie-card:hover { -fx-border-color: -primary-light-color; -fx-translate-y: -3px; -fx-cursor: hand; }
 .movie-card .image-view { -fx-background-color: #424242; }
+.movie-card .movie-title-label { -fx-font-size: 17px; -fx-font-weight: 700; -fx-text-fill: -text-dark; -fx-padding-top: 10px; }
+.movie-card .movie-detail-label { -fx-font-size: 13px; -fx-font-weight: 500; -fx-text-fill: -text-light; }
+.movie-card .movie-description-label { -fx-font-size: 13px; -fx-font-style: italic; -fx-text-fill: -text-medium; -fx-padding-top: 8px; }
 
-/* Penyesuaian Font 'Inter' */
-.movie-card .movie-title-label {
-    -fx-font-size: 17px;
-    -fx-font-weight: 700; /* Bold */
-    -fx-text-fill: -text-dark;
-    -fx-padding-top: 10px;
-}
-.movie-card .movie-detail-label {
-    -fx-font-size: 13px;
-    -fx-font-weight: 500; /* Medium */
-    -fx-text-fill: -text-light;
-}
-.movie-card .movie-description-label {
-    -fx-font-size: 13px;
-    -fx-font-style: italic;
-    -fx-text-fill: -text-medium;
-    -fx-padding-top: 8px;
-}
+/* --- STYLING PANEL DETAIL --- */
+/* (Style ini tidak akan terpakai sampai Anda pindah ke panel detail,
+tapi aman untuk diletakkan di sini) */
+.detail-pane { -fx-background-color: -background-light; }
+.scroll-pane-detail { -fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; }
+.scroll-pane-detail .viewport { -fx-background-color: transparent; }
+
+.detail-pane .button { -fx-background-color: rgba(255, 255, 255, 0.2); -fx-text-fill: white; -fx-font-weight: 700; -fx-border-color: rgba(255, 255, 255, 0.5); -fx-border-radius: 5px; }
+.detail-pane .button:hover { -fx-background-color: rgba(255, 255, 255, 0.4); }
+.detail-poster { -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 20, 0.3, 0, 5); -fx-background-radius: 8px; -fx-border-radius: 8px; }
+.detail-title { -fx-font-size: 36px; -fx-font-weight: 700; -fx-text-fill: white; -fx-text-alignment: center; }
+.detail-subtitle { -fx-font-size: 16px; -fx-font-weight: 500; -fx-text-fill: -text-medium; -fx-text-alignment: center; }
+.detail-header { -fx-font-size: 18px; -fx-font-weight: 700; -fx-text-fill: white; -fx-border-color: -border-color; -fx-border-width: 0 0 1 0; -fx-padding-bottom: 5px; }
+.detail-description { -fx-font-size: 15px; -fx-font-weight: 400; -fx-text-fill: -text-medium; -fx-line-spacing: 4px; }
