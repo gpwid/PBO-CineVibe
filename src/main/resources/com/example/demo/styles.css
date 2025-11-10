@@ -1,99 +1,195 @@
-/* File: styles.css */
+/* File: styles.css (Versi Dark Mode) */
 
-/* --- Styling Global (Seluruh Aplikasi) --- */
-
-/* .root adalah "body" dari aplikasi JavaFX */
+/* --- Palet Warna (Dark Mode) --- */
 .root {
-    -fx-background-color: #F4F7F6; /* Latar belakang abu-abu sangat muda */
-    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    /* Warna Aksen (Biarkan tetap cerah agar 'pop') */
+    primary-color: #3f51b5; /* Indigo */
+    primary-light-color: #757de8;
+    primary-dark-color: #002984;
+    accent-color: #ff4081; /* Pink */
+
+    /* --- INVERSI WARNA --- */
+    /* Latar belakang utama (Gelap Pekat) */
+    background-light: #1e1e1e;
+    /* Latar belakang sekunder (Gelap) */
+    background-dark: #121212;
+    /* Latar belakang kartu (Sedikit lebih cerah dari BG utama) */
+    card-background: #2C2C2C;
+
+    /* Teks utama (Abu-abu Cerah) */
+    text-dark: #E0E0E0;
+    /* Teks sekunder (Abu-abu) */
+    text-medium: #BDBDBD;
+    /* Teks pudar (Abu-abu Gelap) */
+    text-light: #757575;
+
+    /* Garis batas (Abu-abu Gelap) */
+    border-color: #424242;
+
+    shadow-color: rgba(0, 0, 0, 0.2);
+    shadow-strong-color: rgba(0, 0, 0, 0.3);
 }
 
-/* --- Styling Kontrol Input --- */
-
-.text-field {
-    -fx-border-color: #B0BEC5;
-    -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
+/* --- Global Styling (.root = Seluruh Aplikasi) --- */
+.root {
+    -fx-background-color: background-light;
+    -fx-font-family: "Roboto", "Segoe UI", sans-serif;
     -fx-font-size: 14px;
-    -fx-padding: 5px 10px;
+    -fx-text-fill: text-dark;
+}
+
+/* --- Judul & Label --- */
+.label#appTitle {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white; /* Teks putih cerah untuk judul */
+    -fx-padding: 10px 0 0 0;
+}
+
+.label {
+    -fx-text-fill: text-medium; /* Teks abu-abu cerah untuk label biasa */
+}
+
+/* --- Input & Tombol --- */
+.text-field {
+    -fx-background-color: card-background; /* BG input gelap */
+    -fx-text-fill: text-dark; /* Teks input cerah */
+    -fx-border-color: border-color;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 12px;
 }
 
 .text-field:focused {
-    -fx-border-color: #0078D7;
+    -fx-border-color: primary-color;
     -fx-border-width: 2px;
+    -fx-background-insets: -1px; /* Kompensasi border */
 }
 
 .button {
-    -fx-background-color: #0078D7; /* Biru modern */
+    /* Biarkan tombol tetap cerah agar menonjol */
+    -fx-background-color: primary-color;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-background-radius: 5px;
-    -fx-padding: 8px 15px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, shadow-strong-color, 5, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease-in-out;
 }
 
 .button:hover {
-    -fx-background-color: #005A9E; /* Biru lebih gelap saat disentuh */
-    -fx-cursor: hand;
+    -fx-background-color: primary-light-color;
+    -fx-effect: dropshadow(gaussian, shadow-strong-color, 8, 0, 0, 3);
 }
 
+.button:pressed {
+    -fx-background-color: primary-dark-color;
+    -fx-effect: none;
+}
+
+/* --- CheckBox Filter Genre --- */
+.check-box {
+    -fx-text-fill: text-medium;
+    -fx-font-size: 13px;
+}
 .check-box .box {
-    -fx-border-color: #0078D7;
+    -fx-border-color: border-color;
     -fx-border-radius: 3px;
+    -fx-background-color: background-light; /* BG box gelap */
 }
-
 .check-box:selected .box {
-    -fx-background-color: #0078D7;
+    -fx-background-color: primary-color;
+    -fx-border-color: primary-color;
+}
+.check-box:selected .box .mark {
+    -fx-background-color: white; /* Tanda centang putih */
 }
 
-/* --- Styling Hasil (Kartu Film) --- */
+/* --- Loading Label --- */
+.label#loadingLabel {
+    -fx-text-fill: primary-light-color; /* Biru cerah agar terlihat */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
 
-/* Ini adalah target dari styleClass="movie-card" yang kita buat */
-.movie-card {
-    -fx-background-color: #FFFFFF; /* Latar belakang kartu putih */
-    -fx-background-radius: 8px; /* Sudut melengkung */
-    -fx-border-radius: 8px;
-    -fx-border-color: #E0E0E0; /* Garis batas abu-abu */
+/* --- TilePane (Area Kartu Film) --- */
+.tile-pane {
+    -fx-background-color: background-light; /* Latar area hasil */
     -fx-padding: 15px;
+    -fx-alignment: center;
+}
 
-    /* Ini adalah efek bayangan yang membuatnya "melayang" */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.3, 0, 3);
-
-    /* Transisi halus saat di-hover */
+/* --- Movie Card Styling (styleClass="movie-card") --- */
+.movie-card {
+    -fx-background-color: card-background; /* Latar kartu gelap */
+    -fx-background-radius: 8px;
+    -fx-border-color: #535353; /* Border abu-abu (lebih bersih dari shadow) */
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 15px;
+    -fx-effect: none; /* Hapus bayangan, ganti dengan border */
+    -fx-cursor: default;
     -fx-transition: all 0.2s ease-in-out;
 }
 
 .movie-card:hover {
-    /* Sedikit terangkat dan bayangan lebih jelas saat disentuh */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0.5, 0, 4);
+    -fx-border-color: primary-light-color; /* Sorot border saat disentuh */
     -fx-translate-y: -3px;
     -fx-cursor: hand;
 }
 
-/* --- Styling Teks di Dalam Kartu --- */
+.movie-card .image-view { /* Poster */
+    -fx-effect: none; /* Hapus bayangan poster */
+    -fx-background-color: #424242; /* Placeholder poster gelap */
+    -fx-padding: 0; /* Hapus padding agar gambar penuh */
+}
 
-/* Ini target dari styleClass="movie-title-label" */
-.movie-title-label {
-    -fx-font-size: 16px;
+/* --- Teks di Dalam Kartu --- */
+.movie-card .movie-title-label {
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #1A2B4C; /* Biru tua */
+    -fx-text-fill: text-dark; /* Teks cerah */
+    -fx-padding-top: 10px;
 }
 
-/* Ini target dari styleClass="movie-detail-label" */
-.movie-detail-label {
+.movie-card .movie-detail-label {
     -fx-font-size: 12px;
-    -fx-text-fill: #555555; /* Abu-abu tua */
+    -fx-text-fill: text-light; /* Teks pudar */
 }
 
-/* Ini target dari styleClass="movie-description-label" */
-.movie-description-label {
+.movie-card .movie-description-label {
     -fx-font-size: 12px;
     -fx-font-style: italic;
-    -fx-text-fill: #777777; /* Abu-abu muda */
+    -fx-text-fill: text-medium; /* Teks sekunder */
+    -fx-padding-top: 8px;
+    -fx-line-spacing: 2px;
 }
 
-/* --- Styling Kotak Hasil (TilePane) --- */
-.tile-pane {
-    -fx-background-color: #E8ECEF; /* Latar belakang area hasil */
-    -fx-padding: 15px;
+/* --- ScrollPane (Dark Mode) --- */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+.scroll-pane .scroll-bar:vertical,
+.scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: background-light;
+}
+.scroll-pane .scroll-bar .thumb {
+    -fx-background-color: #555; /* Handle scroll abu-abu */
+    -fx-background-radius: 5px;
+}
+.scroll-pane .scroll-bar .thumb:hover {
+    -fx-background-color: #777;
+}
+.scroll-pane .scroll-bar .increment-button,
+.scroll-pane .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
 }
