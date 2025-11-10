@@ -5,9 +5,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
 
 <?import java.lang.String?>
 <AnchorPane fx:id="detailPane" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1"
@@ -23,23 +24,45 @@
         <content>
             <HBox alignment="TOP_LEFT" spacing="30.0" style="-fx-padding: 80px 40px 40px 40px;">
 
-                <VBox alignment="TOP_CENTER" spacing="10.0">
-                    <ImageView fx:id="posterImageView" fitHeight="450.0" pickOnBounds="true" preserveRatio="true"
+                <VBox alignment="TOP_CENTER" spacing="15.0" minWidth="300.0">
+                    <ImageView fx:id="posterImageView" fitHeight="450.0" fitWidth="300.0"
+                               pickOnBounds="true" preserveRatio="true"
                                styleClass="detail-poster" />
+
+                    <Label fx:id="userScoreLabel" text="7.8 / 10" styleClass="user-score-label" />
+
                 </VBox>
 
                 <VBox alignment="TOP_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
-                    <Label fx:id="titleLabel" text="Judul Film" styleClass="detail-title" wrapText="true" />
+
+                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                        <Label fx:id="titleLabel" text="Judul Film" styleClass="detail-title" wrapText="true" />
+                        <Label fx:id="ratingLabel" text="PG-13" styleClass="rating-label" />
+                    </HBox>
+
                     <Label fx:id="directorLabel" text="Sutradara: N/A" styleClass="detail-subtitle" />
-                    <Label fx:id="actorsLabel" text="Aktor: N/A" styleClass="detail-subtitle" wrapText="true" />
 
                     <Label text="Deskripsi:" styleClass="detail-header">
                         <VBox.margin><Insets top="30.0" /></VBox.margin>
                     </Label>
                     <Label fx:id="descriptionLabel" text="Deskripsi..." styleClass="detail-description"
                            wrapText="true" />
-                </VBox>
 
+                    <Label text="Pemeran Utama:" styleClass="detail-header">
+                        <VBox.margin><Insets top="30.0" /></VBox.margin>
+                    </Label>
+                    <ScrollPane hbarPolicy="AS_NEEDED" vbarPolicy="NEVER" styleClass="horizontal-scroll-pane">
+                        <content>
+                            <HBox fx:id="actorGalleryPane" spacing="15.0" />
+                        </content>
+                    </ScrollPane>
+
+                    <Label text="Galeri:" styleClass="detail-header">
+                        <VBox.margin><Insets top="30.0" /></VBox.margin>
+                    </Label>
+                    <TilePane fx:id="backdropGalleryPane" hgap="10.0" vgap="10.0"
+                              prefColumns="3" styleClass="backdrop-gallery" />
+                </VBox>
             </HBox>
         </content>
     </ScrollPane>

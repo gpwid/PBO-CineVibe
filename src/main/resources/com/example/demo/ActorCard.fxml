@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20"
+      fx:controller="com.example.demo.ActorCardController"
+      alignment="TOP_CENTER" spacing="5.0" styleClass="actor-card"
+      prefWidth="140.0">
+
+    <ImageView fx:id="actorImageView" fitHeight="175.0" fitWidth="120.0"
+               pickOnBounds="true" preserveRatio="true"
+               styleClass="actor-portrait" />
+
+    <Label fx:id="actorNameLabel" text="Nama Aktor" styleClass="actor-name" wrapText="true" />
+    <Label fx:id="characterNameLabel" text="Karakter" styleClass="character-name" wrapText="true" />
+
+</VBox>

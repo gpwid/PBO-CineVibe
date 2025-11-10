@@ -16,6 +16,8 @@ public class TMDBService {
 
     private final String API_BASE_URL = "https://api.themoviedb.org/3";
     private final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300"; // w300 = lebar poster 300px
+    private final String ACTOR_IMAGE_URL = "https://image.tmdb.org/t/p/w185"; // Untuk potret aktor
+    private final String BACKDROP_IMAGE_URL = "https://image.tmdb.org/t/p/w500"; // Untuk galeri
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final Gson gson = new Gson();
@@ -25,79 +27,109 @@ public class TMDBService {
         String url = API_BASE_URL + "/movie/" + tmdbId +
                 "?api_key=" + API_KEY +
                 "&language=id-ID" +
-                "&append_to_response=translations";
+                "&append_to_response=translations,release_dates";
+
         try {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            // Ubah JSON menjadi objek Java
             MovieDetails details = gson.fromJson(response.body(), MovieDetails.class);
 
             if (details != null) {
-                // 1. Cek jika deskripsi utama (Indonesia) kosong
                 if (details.overview == null || details.overview.trim().isEmpty()) {
-
-                    // 2. Coba cari terjemahan Bahasa Inggris (en)
                     if (details.translations != null && details.translations.translations != null) {
                         for (TranslationItem item : details.translations.translations) {
                             if ("en".equals(item.iso_639_1)) {
-                                details.overview = item.data.overview; // Timpa dengan overview Bhs. Inggris
-                                break; // Berhenti mencari
+                                details.overview = item.data.overview;
+                                break;
                             }
                         }
                     }
                 }
-
-                // 3. Set poster (logika ini tetap sama)
                 if (details.posterPath != null) {
                     details.fullPosterPath = IMAGE_BASE_URL + details.posterPath;
                 }
             }
             return details;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        } catch (Exception e) { e.printStackTrace(); return null; }
     }
 
-    // Fungsi untuk mengambil kredit (aktor, sutradara)
     public MovieCredits getMovieCredits(int tmdbId) {
         String url = API_BASE_URL + "/movie/" + tmdbId + "/credits?api_key=" + API_KEY;
         try {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            MovieCredits credits = gson.fromJson(response.body(), MovieCredits.class);
 
-            // Ubah JSON menjadi objek Java
-            return gson.fromJson(response.body(), MovieCredits.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+            // --- BARU: Bangun URL potret aktor ---
+            if (credits != null && credits.cast != null) {
+                for (CastMember member : credits.cast) {
+                    if (member.profile_path != null) {
+                        member.fullProfilePath = ACTOR_IMAGE_URL + member.profile_path;
+                    }
+                }
+            }
+            return credits;
+        } catch (Exception e) { e.printStackTrace(); return null; }
     }
 
-    // --- Kelas Internal untuk menampung data JSON ---
-    // Ini adalah cetakan untuk data detail film
+    // --- FUNGSI BARU: Untuk mengambil galeri backdrop ---
+    public MovieImages getMovieImages(int tmdbId) {
+        String url = API_BASE_URL + "/movie/" + tmdbId + "/images?api_key=" + API_KEY;
+        try {
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            MovieImages images = gson.fromJson(response.body(), MovieImages.class);
+
+            // --- BARU: Bangun URL backdrop ---
+            if (images != null && images.backdrops != null) {
+                for (ImageItem item : images.backdrops) {
+                    if (item.file_path != null) {
+                        item.fullBackdropPath = BACKDROP_IMAGE_URL + item.file_path;
+                    }
+                }
+            }
+            return images;
+        } catch (Exception e) { e.printStackTrace(); return null; }
+    }
+
+    // --- Kelas Internal (Menampung Data JSON) ---
+
+    // 1. MovieDetails (DI-UPDATE)
     public static class MovieDetails {
-        @SerializedName("title")
-        public String title;
-        @SerializedName("overview")
-        public String overview;
-        @SerializedName("poster_path")
-        public String posterPath;
-        @SerializedName("translations")
-        public TranslationsData translations;
+        @SerializedName("title") public String title;
+        @SerializedName("overview") public String overview;
+        @SerializedName("poster_path") public String posterPath;
+        @SerializedName("translations") public TranslationsData translations;
+        @SerializedName("vote_average") public double vote_average;
+        @SerializedName("release_dates") public ReleaseDatesResponse release_dates;
+        public String fullPosterPath;
 
-        public String fullPosterPath; // Kita isi manual
+        public String getCertification() {
+            if (release_dates == null || release_dates.results == null) return "";
+
+            // Cari sertifikasi untuk "US" (Amerika) karena paling standar
+            for (ReleaseDateResult result : release_dates.results) {
+                if ("US".equals(result.iso_3166_1)) {
+                    if (result.release_dates != null) {
+                        for (ReleaseDateInfo info : result.release_dates) {
+                            // Ambil sertifikasi pertama yang tidak kosong
+                            if (info.certification != null && !info.certification.isEmpty()) {
+                                return info.certification; // Misal: "PG-13"
+                            }
+                        }
+                    }
+                }
+            }
+            return ""; // Tidak ditemukan
+        }
+
     }
 
-    // Ini adalah cetakan untuk data kredit
+    // 2. MovieCredits (DI-UPDATE)
     public static class MovieCredits {
-        @SerializedName("cast")
-        public List<CastMember> cast;
-        @SerializedName("crew")
-        public List<CrewMember> crew;
+        @SerializedName("cast") public List<CastMember> cast;
+        @SerializedName("crew") public List<CrewMember> crew;
 
-        // Helper untuk mencari Sutradara
         public String getDirector() {
             if (crew == null) return "N/A";
             for (CrewMember member : crew) {
@@ -107,8 +139,7 @@ public class TMDBService {
             }
             return "N/A";
         }
-
-        // Helper untuk mengambil 3 aktor utama
+        // Helper ini tidak kita pakai lagi di panel detail, tapi biarkan saja
         public String getActors() {
             if (cast == null || cast.isEmpty()) return "N/A";
             StringBuilder actors = new StringBuilder();
@@ -118,40 +149,60 @@ public class TMDBService {
                 actors.append(member.name).append(", ");
                 count++;
             }
-            if (actors.length() > 2) {
-                actors.setLength(actors.length() - 2); // Hapus koma terakhir
-            }
+            if (actors.length() > 2) { actors.setLength(actors.length() - 2); }
             return actors.toString();
         }
     }
 
+    // 3. CastMember (DI-UPDATE)
     public static class CastMember {
-        @SerializedName("name")
-        public String name;
+        @SerializedName("name") public String name;
+        @SerializedName("character") public String character; // <-- BARU
+        @SerializedName("profile_path") public String profile_path; // <-- BARU
+        public String fullProfilePath; // <-- BARU (Kita isi manual)
     }
 
+    // 4. CrewMember (TETAP SAMA)
     public static class CrewMember {
-        @SerializedName("name")
-        public String name;
-        @SerializedName("job")
-        public String job;
+        @SerializedName("name") public String name;
+        @SerializedName("job") public String job;
     }
 
-    public static class TranslationsData {
-        @SerializedName("translations")
-        public List<TranslationItem> translations;
-    }
-
+    // 5. Translation Classes (TETAP SAMA)
+    public static class TranslationsData { @SerializedName("translations") public List<TranslationItem> translations; }
     public static class TranslationItem {
-        @SerializedName("iso_639_1")
-        public String iso_639_1; // Ini adalah kode bahasa, e.g., "en", "de", "fr"
+        @SerializedName("iso_639_1") public String iso_639_1;
+        @SerializedName("data") public TranslationDetails data;
+    }
+    public static class TranslationDetails { @SerializedName("overview") public String overview; }
 
-        @SerializedName("data")
-        public TranslationDetails data;
+    // --- KELAS INTERNAL BARU UNTUK GALERI GAMBAR ---
+    public static class MovieImages {
+        @SerializedName("backdrops")
+        public List<ImageItem> backdrops;
     }
 
-    public static class TranslationDetails {
-        @SerializedName("overview")
-        public String overview; // Deskripsi dalam bahasa tersebut
+    public static class ImageItem {
+        @SerializedName("file_path")
+        public String file_path;
+        public String fullBackdropPath; // <-- BARU (Kita isi manual)
+    }
+
+    public static class ReleaseDatesResponse {
+        @SerializedName("results")
+        public List<ReleaseDateResult> results;
+    }
+
+    public static class ReleaseDateResult {
+        @SerializedName("iso_3166_1")
+        public String iso_3166_1; // Kode negara, misal "US", "ID"
+
+        @SerializedName("release_dates")
+        public List<ReleaseDateInfo> release_dates;
+    }
+
+    public static class ReleaseDateInfo {
+        @SerializedName("certification")
+        public String certification; // Ini yang kita cari! (misal "PG-13")
     }
 }
