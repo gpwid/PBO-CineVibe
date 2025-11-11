@@ -1,8 +1,7 @@
 // File: MovieDetailController.java
 package com.example.demo;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
+import javafx.concurrent.Task; // Tetap perlu Task untuk ekstraksi warna
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,8 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox; // <-- BARU
-import javafx.scene.layout.TilePane; // <-- BARU
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -26,69 +25,61 @@ public class MovieDetailController {
     @FXML private ImageView posterImageView;
     @FXML private Label titleLabel;
     @FXML private Label directorLabel;
-    @FXML private Label actorsLabel; // <-- Label ini tidak kita pakai lagi, tapi biarkan saja
     @FXML private Label descriptionLabel;
-
-    // --- KONTROL GALERI BARU ---
     @FXML private HBox actorGalleryPane;
     @FXML private TilePane backdropGalleryPane;
     @FXML private Label userScoreLabel;
     @FXML private Label ratingLabel;
 
-    private TMDBService tmdbService = new TMDBService(); // <-- Service API
+    // HAPUS: private TMDBService tmdbService;
 
     /**
-     * Dipanggil oleh HelloApplication untuk mengirim data
+     * Dipanggil oleh HelloApplication (DI-UPDATE)
      */
-    public void setData(Movie movie, TMDBService.MovieDetails details, TMDBService.MovieCredits credits) {
+    public void setData(Movie movie, LocalMovieData localData) {
+
+        // --- LOGIKA OFFLINE BARU ---
 
         // 1. Isi data teks
-        titleLabel.setText(details.title != null ? details.title : "Judul Tidak Ditemukan");
-        directorLabel.setText("Sutradara: " + credits.getDirector());
+        titleLabel.setText(localData.title != null ? localData.title : "Judul Tidak Ditemukan");
+        directorLabel.setText("Sutradara: " + localData.director);
 
-        if (details.vote_average > 0) {
-            DecimalFormat df = new DecimalFormat("#.#"); // Format 1 angka desimal
-            userScoreLabel.setText(df.format(details.vote_average) + " / 10 User Score");
-        } else {
-            userScoreLabel.setText("N/A");
-        }
+        DecimalFormat df = new DecimalFormat("#.#");
+        userScoreLabel.setText(df.format(localData.vote_average) + " / 10 User Score");
 
-        String certification = details.getCertification();
-        if (certification != null && !certification.isEmpty()) {
-            ratingLabel.setText(certification);
+        if (localData.certification != null && !localData.certification.isEmpty()) {
+            ratingLabel.setText(localData.certification);
             ratingLabel.setVisible(true);
         } else {
-            ratingLabel.setVisible(false); // Sembunyikan jika tidak ada rating
+            ratingLabel.setVisible(false);
         }
 
-        String overview = details.overview;
+        String overview = localData.overview;
         if (overview == null || overview.trim().isEmpty()) {
             overview = "Deskripsi tidak tersedia.";
         }
         descriptionLabel.setText(overview);
 
-        // 2. Muat poster & Ekstrak Warna (Logika ini tetap sama)
-        if (details.fullPosterPath != null) {
-            Image posterImage = new Image(details.fullPosterPath, true);
-            posterImageView.setImage(posterImage);
-            posterImage.progressProperty().addListener((obs, oldProgress, newProgress) -> {
-                if (newProgress.doubleValue() == 1.0) {
-                    extractDominantColor(posterImage);
-                }
-            });
+        // 2. Muat poster LOKAL & Ekstrak Warna
+        if (localData.poster_path != null) {
+            String imagePath = LocalDataService.getInstance().getLocalImagePath(localData.poster_path);
+            if (imagePath != null) {
+                Image posterImage = new Image(imagePath);
+                posterImageView.setImage(posterImage);
+                // Ekstraksi warna tetap berjalan (karena ini dari gambar yang sudah di-load)
+                extractDominantColor(posterImage);
+            }
         }
 
-        // --- 3. LOGIKA BARU: Muat Kartu Aktor ---
-        // (Kita muat ini langsung, karena datanya sudah ada di 'credits')
-        loadActorCards(credits);
+        // 3. Muat Aktor LOKAL
+        loadActorCards(localData);
 
-        // --- 4. LOGIKA BARU: Muat Galeri Backdrop (di Background) ---
-        // (Kita perlu memanggil API baru, jadi harus pakai Task)
-        loadBackdropGallery(movie.getTmdbMovieId());
+        // 4. Muat Backdrop LOKAL
+        loadBackdropGallery(localData);
     }
 
     /**
-     * Dipanggil oleh Tombol 'Kembali'
+     * Dipanggil oleh Tombol 'Kembali' (Tidak Berubah)
      */
     @FXML
     private void onBackClick() {
@@ -96,79 +87,56 @@ public class MovieDetailController {
     }
 
     /**
-     * BARU: Mengisi galeri HBox dengan kartu aktor
+     * BARU: Mengisi galeri HBox dengan kartu aktor LOKAL
      */
-    private void loadActorCards(TMDBService.MovieCredits credits) {
-        if (credits == null || credits.cast == null) return;
+    private void loadActorCards(LocalMovieData localData) {
+        if (localData == null || localData.actors == null) return;
 
-        actorGalleryPane.getChildren().clear(); // Kosongkan galeri
-        int count = 0;
-        for (TMDBService.CastMember member : credits.cast) {
-            if (count >= 10) break; // Batasi 10 aktor teratas
-
+        actorGalleryPane.getChildren().clear();
+        for (LocalActorData member : localData.actors) {
             try {
                 FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("ActorCard.fxml"));
                 Node actorCardNode = loader.load();
 
                 ActorCardController controller = loader.getController();
-                controller.setData(member); // Kirim data aktor ke kartu
+                controller.setData(member); // Kirim data LOKAL ke kartu
 
-                actorGalleryPane.getChildren().add(actorCardNode); // Tambahkan kartu ke HBox
+                actorGalleryPane.getChildren().add(actorCardNode);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            count++;
         }
     }
 
     /**
-     * BARU: Memanggil API gambar dan mengisi galeri backdrop
+     * BARU: Mengisi galeri backdrop LOKAL
      */
-    private void loadBackdropGallery(int tmdbId) {
-        Task<TMDBService.MovieImages> imageTask = new Task<>() {
-            @Override
-            protected TMDBService.MovieImages call() throws Exception {
-                // Panggil API di background thread
-                return tmdbService.getMovieImages(tmdbId);
+    private void loadBackdropGallery(LocalMovieData localData) {
+        if (localData == null || localData.backdrops == null) return;
+
+        backdropGalleryPane.getChildren().clear();
+        for (String backdropPath : localData.backdrops) {
+            String imagePath = LocalDataService.getInstance().getLocalImagePath(backdropPath);
+            if (imagePath != null) {
+                ImageView backdropView = new ImageView(new Image(imagePath));
+                backdropView.setFitWidth(250); // Ukuran gambar galeri
+                backdropView.setPreserveRatio(true);
+                backdropView.getStyleClass().add("backdrop-image");
+                backdropGalleryPane.getChildren().add(backdropView);
             }
-        };
-
-        imageTask.setOnSucceeded(e -> {
-            TMDBService.MovieImages images = imageTask.getValue();
-            if (images == null || images.backdrops == null) return;
-
-            backdropGalleryPane.getChildren().clear(); // Kosongkan galeri
-            int count = 0;
-            for (TMDBService.ImageItem backdrop : images.backdrops) {
-                if (count >= 6) break; // Batasi 6 gambar
-                if (backdrop.fullBackdropPath != null) {
-                    // Buat ImageView secara dinamis
-                    ImageView backdropView = new ImageView(new Image(backdrop.fullBackdropPath, true));
-                    backdropView.setFitWidth(250); // Ukuran gambar galeri
-                    backdropView.setPreserveRatio(true);
-                    backdropView.getStyleClass().add("backdrop-image"); // Tambahkan style
-                    backdropGalleryPane.getChildren().add(backdropView);
-                }
-                count++;
-            }
-        });
-
-        imageTask.setOnFailed(e -> imageTask.getException().printStackTrace());
-
-        new Thread(imageTask).start();
+        }
     }
 
     /**
-     * Menganalisis gambar poster untuk menemukan warna dominan
+     * Menganalisis gambar poster untuk menemukan warna dominan (Tidak Berubah)
      */
     private void extractDominantColor(Image image) {
-        // ... (Fungsi ini tidak berubah) ...
+        // ... (Fungsi ini tidak berubah, karena bekerja pada Image object) ...
         Task<Color> colorTask = new Task<>() {
             @Override
             protected Color call() throws Exception {
                 PixelReader pixelReader = image.getPixelReader();
-                int width = (int) image.getWidth();
-                int height = (int) image.getHeight();
+                int width = (int) image.getWidth(); int height = (int) image.getHeight();
                 Map<Integer, Integer> hueHistogram = new HashMap<>();
                 int maxCount = 0; int dominantHue = 0; int sampleStep = 10;
                 for (int y = 0; y < height; y += sampleStep) {
@@ -184,7 +152,7 @@ public class MovieDetailController {
                     }
                 }
                 if (maxCount == 0) return null;
-                return Color.hsb(dominantHue, 0.4, 0.3);
+                return Color.hsb(dominantHue, 0.4, 0.3); // (Hue, Saturasi 40%, Kecerahan 30%)
             }
         };
         colorTask.setOnSucceeded(e -> {

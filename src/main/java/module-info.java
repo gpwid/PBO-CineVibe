@@ -13,6 +13,8 @@ module com.example.demo {
     requires com.google.gson;
     requires java.net.http;
 
-    opens com.example.demo to javafx.fxml;
+    opens com.example.demo to javafx.fxml, com.google.gson;
+
+
     exports com.example.demo;
 }

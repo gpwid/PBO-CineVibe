@@ -21,32 +21,49 @@ public class MovieCardController {
 
     // Simpan data film
     private Movie movie;
-    private TMDBService.MovieDetails details;
-    private TMDBService.MovieCredits credits;
+    private LocalMovieData localData;
 
     // Fungsi initialize untuk menambahkan event klik
     @FXML
     public void initialize() {
         cardRoot.setOnMouseClicked(event -> {
-            // Jika data sudah ter-load, pindah ke panel detail
-            if (this.movie != null && this.details != null && this.credits != null) {
-                HelloApplication.showDetailView(this.movie, this.details, this.credits);
+            if (this.movie != null && this.localData != null) {
+                // --- DI-UPDATE: Kirim LocalMovieData ---
+                HelloApplication.showDetailView(this.movie, this.localData);
             }
         });
     }
 
     // Fungsi untuk mengisi data dari HelloController
-    public void setData(Movie movie, MovieDetails details, MovieCredits credits) {
+    public void setData(Movie movie, LocalMovieData localData) {
         // Simpan data
         this.movie = movie;
-        this.details = details;
-        this.credits = credits;
+        this.localData = localData;
 
         // Isi UI
-        if (details != null) {
-            titleLabel.setText(details.title != null ? details.title : "Judul Tidak Ditemukan");
+        if (localData != null) {
+            titleLabel.setText(localData.title != null ? localData.title : "Judul Tidak Ditemukan");
+            directorLabel.setText("Sutradara: " + localData.director);
 
-            String overview = details.overview;
+            // Tampilkan 3 aktor pertama
+            if (localData.actors != null && !localData.actors.isEmpty()) {
+                StringBuilder actorString = new StringBuilder();
+                int count = 0;
+                for (LocalActorData actor : localData.actors) {
+                    if (count >= 3) break;
+                    actorString.append(actor.name).append(", ");
+                    count++;
+                }
+                if (actorString.length() > 2) {
+                    actorString.setLength(actorString.length() - 2);
+                }
+                actorsLabel.setText("Aktor: " + actorString.toString());
+            } else {
+                actorsLabel.setText("Aktor: N/A");
+            }
+
+            // Deskripsi
+            String overview = localData.overview;
             if (overview == null || overview.trim().isEmpty()) {
                 overview = "Deskripsi tidak tersedia.";
             } else if (overview.length() > 150) {
@@ -54,15 +71,13 @@ public class MovieCardController {
             }
             descriptionLabel.setText(overview);
 
-            if (details.fullPosterPath != null) {
-                Image poster = new Image(details.fullPosterPath, true);
-                posterImageView.setImage(poster);
+            // --- BARU: Muat Poster LOKAL ---
+            if (localData.poster_path != null) {
+                String imagePath = LocalDataService.getInstance().getLocalImagePath(localData.poster_path);
+                if (imagePath != null) {
+                    posterImageView.setImage(new Image(imagePath));
+                }
             }
-        }
-
-        if (credits != null) {
-            directorLabel.setText("Sutradara: " + credits.getDirector());
-            actorsLabel.setText("Aktor: " + credits.getActors());
         }
     }
 }

@@ -28,7 +28,7 @@ public class HelloApplication extends Application {
         } catch (Exception e) {
             System.err.println("Gagal memuat font Inter. Pastikan file .ttf ada di folder resources/com/example/demo/");
         }
-        // --- Akhir Blok Font ---
+        LocalDataService.getInstance().loadData();
 
         // Muat FXML utama (hello-view.fxml)
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
@@ -44,21 +44,16 @@ public class HelloApplication extends Application {
     /**
      * Fungsi helper statis untuk beralih ke panel Detail
      */
-    public static void showDetailView(Movie movie, TMDBService.MovieDetails details, TMDBService.MovieCredits credits) {
+    public static void showDetailView(Movie movie, LocalMovieData localData) { // <-- Tipe data diubah
         try {
-            // 1. Muat FXML panel detail yang baru
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("MovieDetailView.fxml"));
             Parent detailRoot = loader.load();
-
-            // 2. Ambil controller-nya
             MovieDetailController controller = loader.getController();
 
-            // 3. Kirim data (film, detail, kredit) ke controller itu
-            controller.setData(movie, details, credits);
+            // --- DI-UPDATE: Kirim LocalMovieData ---
+            controller.setData(movie, localData);
 
-            // 4. Ganti panel di window utama
             primaryStage.getScene().setRoot(detailRoot);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

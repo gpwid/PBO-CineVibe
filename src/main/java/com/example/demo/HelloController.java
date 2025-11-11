@@ -1,9 +1,7 @@
 // File: HelloController.java
 package com.example.demo;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,7 +17,7 @@ import java.util.List;
 
 public class HelloController {
 
-    // --- 1. Hubungan FXML ---
+    // --- FXML (Tidak Berubah) ---
     @FXML private TextField searchField;
     @FXML private Button recommendButton;
     @FXML private TilePane resultTilePane;
@@ -27,19 +25,18 @@ public class HelloController {
     @FXML private Label recommendationLabel;
     @FXML private ComboBox<String> genreFilterDropdown;
 
-    // --- 2. Backend Service ---
+    // --- Backend Service (DI-UPDATE) ---
     private DataService dataService;
     private RecommendationService recService;
-    private TMDBService tmdbService;
+    private LocalDataService localDataService; // <-- PENGGANTI TMDBService
 
     private List<Artist> allArtists;
     private List<Movie> allMovies;
 
-    // --- Cache untuk Filter Instan ---
+    // Cache (Tidak Berubah)
     private class CachedMovieCard {
-        Node cardNode; // VBox (kartu)
-        Movie movie;   // Data movie (untuk genre)
-
+        Node cardNode;
+        Movie movie;
         CachedMovieCard(Node cardNode, Movie movie) {
             this.cardNode = cardNode;
             this.movie = movie;
@@ -53,9 +50,9 @@ public class HelloController {
         System.out.println("Controller diinisialisasi, memuat data...");
         this.dataService = new DataService();
         this.recService = new RecommendationService();
-        this.tmdbService = new TMDBService();
+        this.localDataService = LocalDataService.getInstance(); // <-- BARU
 
-        // Path ke file CSV Anda (pastikan ada di root proyek)
+        // Path CSV (Tidak Berubah)
         String PATH_ARTIS = "artist_db.csv";
         String PATH_FILM = "movies_db.csv";
 
@@ -63,18 +60,15 @@ public class HelloController {
         this.allMovies = dataService.loadMovies(PATH_FILM);
 
         if (this.allArtists.isEmpty() || this.allMovies.isEmpty()) {
-            System.err.println("GAGAL MEMUAT DATA CSV. Pastikan file ada di root proyek.");
             loadingLabel.setText("ERROR: Gagal memuat database CSV.");
             loadingLabel.setVisible(true);
-            recommendationLabel.setVisible(false);
         } else {
             System.out.println("Berhasil memuat " + allArtists.size() + " artis dan " + allMovies.size() + " film.");
-            loadingLabel.setText("Database berhasil dimuat. Siap mencari...");
+            loadingLabel.setText("Database Vibe & JSON berhasil dimuat. Siap mencari...");
             loadingLabel.setVisible(true);
-            recommendationLabel.setVisible(false);
         }
 
-        // Mengisi 19 Genre ke Dropdown
+        // Dropdown Genre (Tidak Berubah)
         List<String> allGenres = List.of(
                 "Semua Genre", "Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary",
                 "Drama", "Family", "Fantasy", "History", "Horror", "Music",
@@ -83,12 +77,10 @@ public class HelloController {
         );
         genreFilterDropdown.setItems(FXCollections.observableArrayList(allGenres));
         genreFilterDropdown.setValue("Semua Genre");
-
-        // Event Listener untuk Filter Instan
         genreFilterDropdown.setOnAction(event -> onGenreFilterChanged());
     }
 
-    // --- 4. Aksi Tombol ---
+    // --- 4. Aksi Tombol (LOGIKA BARU - TIDAK ADA TASK) ---
     @FXML
     private void onRecommendClick() {
         String artistName = searchField.getText();
@@ -107,6 +99,7 @@ public class HelloController {
             return;
         }
 
+        // Panggil "Otak" ML (Logika Vibe - Cepat)
         List<RecommendationService.ScoredMovie> recommendations = recService.recommendMovies(
                 List.of(selectedArtist),
                 allMovies
@@ -119,71 +112,55 @@ public class HelloController {
         loadingLabel.setText("Mencari data film untuk " + selectedArtist.getArtistName() + "...");
         loadingLabel.setVisible(true);
         recommendationLabel.setVisible(false);
-        recommendButton.setDisable(true);
-        genreFilterDropdown.setDisable(true);
+        // Tidak perlu disable tombol, prosesnya instan
 
-        // Tugas Background
-        Task<Void> loadMovieCardsTask = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                int count = 0;
-                for (var sm : recommendations) {
-                    if (count >= 20) break;
-                    if (sm.movie.getTmdbMovieId() == 0) continue;
+        // --- TIDAK ADA TASK LAGI (PROSES SINKRON) ---
+        int count = 0;
+        for (var sm : recommendations) { // 'sm' adalah ScoredMovie
+            if (count >= 20) break;
+            if (sm.movie.getTmdbMovieId() == 0) continue;
 
-                    var details = tmdbService.getMovieDetails(sm.movie.getTmdbMovieId());
-                    var credits = tmdbService.getMovieCredits(sm.movie.getTmdbMovieId());
+            // --- BARU: Ambil data dari JSON LOKAL ---
+            LocalMovieData localData = localDataService.getMovieData(String.valueOf(sm.movie.getTmdbMovieId()));
 
-                    Platform.runLater(() -> {
-                        try {
-                            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("MovieCard.fxml"));
-                            Node movieCardNode = loader.load();
-                            MovieCardController cardController = loader.getController();
-
-                            // Kirim data ke kartu
-                            cardController.setData(sm.movie, details, credits);
-
-                            recommendationCache.add(new CachedMovieCard(movieCardNode, sm.movie));
-                            resultTilePane.getChildren().add(movieCardNode);
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
-
-                    count++;
-                }
-                return null;
+            // Jika film tidak ada di JSON lokal, lewati
+            if (localData == null) {
+                System.err.println("Data lokal tidak ditemukan untuk ID: " + sm.movie.getTmdbMovieId());
+                continue;
             }
-        };
 
-        loadMovieCardsTask.setOnFailed(e -> {
-            loadingLabel.setText("Gagal mengambil data dari TMDB. Cek koneksi internet/API Key.");
+            // Buat kartu
+            try {
+                FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("MovieCard.fxml"));
+                Node movieCardNode = loader.load();
+                MovieCardController cardController = loader.getController();
+
+                // --- DI-UPDATE: Kirim LocalMovieData ---
+                cardController.setData(sm.movie, localData);
+
+                recommendationCache.add(new CachedMovieCard(movieCardNode, sm.movie));
+                resultTilePane.getChildren().add(movieCardNode);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            count++;
+        }
+        // --- AKHIR LOOP ---
+
+        // Update UI setelah selesai
+        loadingLabel.setVisible(false);
+        if (recommendationCache.isEmpty()) {
+            loadingLabel.setText("Tidak ada film yang cocok dengan vibe artis.");
             loadingLabel.setVisible(true);
             recommendationLabel.setVisible(false);
-            recommendButton.setDisable(false);
-            genreFilterDropdown.setDisable(false);
-            loadMovieCardsTask.getException().printStackTrace();
-        });
-
-        loadMovieCardsTask.setOnSucceeded(e -> {
-            loadingLabel.setVisible(false);
-            recommendButton.setDisable(false);
-            genreFilterDropdown.setDisable(false);
-
-            if (recommendationCache.isEmpty()) {
-                loadingLabel.setText("Tidak ada film yang cocok dengan vibe artis.");
-                loadingLabel.setVisible(true);
-                recommendationLabel.setVisible(false);
-            } else {
-                recommendationLabel.setVisible(true);
-            }
-        });
-
-        new Thread(loadMovieCardsTask).start();
+        } else {
+            recommendationLabel.setVisible(true);
+        }
     }
 
-    // --- 5. FUNGSI FILTER INSTAN ---
+    // --- 5. FUNGSI FILTER INSTAN (Tidak Berubah) ---
     private void onGenreFilterChanged() {
         if (recommendationCache.isEmpty()) return;
 
@@ -197,7 +174,7 @@ public class HelloController {
         } else {
             String genreKey = "genre_" + selectedGenreName.toLowerCase()
                     .replace(" ", "_")
-                    .replace("-", "_");
+                    .replace("-", "_"); // untuk "sci-fi"
 
             for (CachedMovieCard cachedCard : recommendationCache) {
                 if (cachedCard.movie.getGenreValue(genreKey) == 1) {

@@ -12,17 +12,18 @@ public class ActorCardController {
     @FXML private Label actorNameLabel;
     @FXML private Label characterNameLabel;
 
-    public void setData(TMDBService.CastMember member) {
+    public void setData(LocalActorData member) {
         if (member == null) return;
 
         actorNameLabel.setText(member.name != null ? member.name : "N/A");
         characterNameLabel.setText(member.character != null ? member.character : "N/A");
 
-        if (member.fullProfilePath != null) {
-            actorImageView.setImage(new Image(member.fullProfilePath, true));
-        } else {
-            // Opsional: set gambar placeholder jika potret tidak ada
-            // actorImageView.setImage(new Image(getClass().getResourceAsStream("placeholder_actor.png")));
+        // --- BARU: Muat Potret LOKAL ---
+        if (member.profile_path != null) {
+            String imagePath = LocalDataService.getInstance().getLocalImagePath(member.profile_path);
+            if (imagePath != null) {
+                actorImageView.setImage(new Image(imagePath));
+            }
         }
     }
 }
