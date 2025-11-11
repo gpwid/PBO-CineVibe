@@ -38,12 +38,12 @@ public class RecommendationService {
     public class ScoredMovie implements Comparable<ScoredMovie> {
         public Movie movie; // Dibuat public
         public double score; // Dibuat public
-        public double distance; // <-- FIELD BARU
+        public double distance;
 
-        ScoredMovie(Movie movie, double score, double distance) { // <-- CONSTRUCTOR DI-UPDATE
+        ScoredMovie(Movie movie, double score, double distance) {
             this.movie = movie;
             this.score = score;
-            this.distance = distance; // <-- BARU
+            this.distance = distance;
         }
 
         @Override
