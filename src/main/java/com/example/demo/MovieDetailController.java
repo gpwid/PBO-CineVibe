@@ -83,7 +83,7 @@ public class MovieDetailController {
      */
     @FXML
     private void onBackClick() {
-        HelloApplication.showMainView();
+        Application.showMainView();
     }
 
     /**
@@ -95,7 +95,7 @@ public class MovieDetailController {
         actorGalleryPane.getChildren().clear();
         for (LocalActorData member : localData.actors) {
             try {
-                FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("ActorCard.fxml"));
+                FXMLLoader loader = new FXMLLoader(Application.class.getResource("ActorCard.fxml"));
                 Node actorCardNode = loader.load();
 
                 ActorCardController controller = loader.getController();

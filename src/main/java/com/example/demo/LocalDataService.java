@@ -34,7 +34,7 @@ public class LocalDataService {
     public void loadData() {
         System.out.println("Memuat database JSON lokal...");
         // Pastikan file JSON ada di src/main/resources/com/example/demo/
-        try (InputStream stream = HelloApplication.class.getResourceAsStream("local_database.json");
+        try (InputStream stream = Application.class.getResourceAsStream("local_database.json");
              InputStreamReader reader = new InputStreamReader(stream)) {
 
             localDatabase = gson.fromJson(reader, new TypeToken<Map<String, LocalMovieData>>(){}.getType());
@@ -59,7 +59,7 @@ public class LocalDataService {
         }
         try {
             // Pastikan path gambar Anda (misal "images/...") ada di resources/com/example/demo/
-            return HelloApplication.class.getResource(relativePath).toExternalForm();
+            return Application.class.getResource(relativePath).toExternalForm();
         } catch (Exception e) {
             System.err.println("Gambar lokal tidak ditemukan: " + relativePath);
             return null;

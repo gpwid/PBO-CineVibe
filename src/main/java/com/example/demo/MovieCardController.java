@@ -7,9 +7,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox; // <-- IMPORT
 
-import com.example.demo.TMDBService.MovieDetails;
-import com.example.demo.TMDBService.MovieCredits;
-
 public class MovieCardController {
 
     @FXML private VBox cardRoot; // <-- Untuk mendeteksi klik
@@ -29,7 +26,7 @@ public class MovieCardController {
         cardRoot.setOnMouseClicked(event -> {
             if (this.movie != null && this.localData != null) {
                 // --- DI-UPDATE: Kirim LocalMovieData ---
-                HelloApplication.showDetailView(this.movie, this.localData);
+                Application.showDetailView(this.movie, this.localData);
             }
         });
     }

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HelloController {
+public class AppController {
 
     // --- FXML (Tidak Berubah) ---
     @FXML private TextField searchField;
@@ -117,8 +117,10 @@ public class HelloController {
         // --- TIDAK ADA TASK LAGI (PROSES SINKRON) ---
         int count = 0;
         for (var sm : recommendations) { // 'sm' adalah ScoredMovie
-            if (count >= 20) break;
+            if (count >= 50) break;
             if (sm.movie.getTmdbMovieId() == 0) continue;
+
+            System.out.println(sm.movie.getTmdbMovieId());
 
             // --- BARU: Ambil data dari JSON LOKAL ---
             LocalMovieData localData = localDataService.getMovieData(String.valueOf(sm.movie.getTmdbMovieId()));
@@ -131,7 +133,7 @@ public class HelloController {
 
             // Buat kartu
             try {
-                FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("MovieCard.fxml"));
+                FXMLLoader loader = new FXMLLoader(Application.class.getResource("MovieCard.fxml"));
                 Node movieCardNode = loader.load();
                 MovieCardController cardController = loader.getController();
 

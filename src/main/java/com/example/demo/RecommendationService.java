@@ -83,11 +83,11 @@ public class RecommendationService {
         // 6. Urutkan film
         Collections.sort(scoredMovies);
 
-        // 7. Ambil 20 film teratas
+        // 7. Ambil film teratas
         List<ScoredMovie> topMovies = new ArrayList<>();
         int count = 0;
         for (ScoredMovie sm : scoredMovies) {
-            if (count >= 20) break; // <-- Dinaikkan jadi 20
+            if (count >= 50) break;
             topMovies.add(sm);
             count++;
         }

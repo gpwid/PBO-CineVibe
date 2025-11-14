@@ -1,7 +1,6 @@
 // File: HelloApplication.java
 package com.example.demo;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,7 +10,7 @@ import javafx.scene.text.Font;
 import java.io.IOException;
 import java.util.Objects;
 
-public class HelloApplication extends Application {
+public class Application extends javafx.application.Application {
 
     private static Stage primaryStage;
     private static Parent mainViewRoot; // Menyimpan panel utama (rekomendasi)
@@ -31,7 +30,7 @@ public class HelloApplication extends Application {
         LocalDataService.getInstance().loadData();
 
         // Muat FXML utama (hello-view.fxml)
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("hello-view.fxml"));
         mainViewRoot = fxmlLoader.load(); // Simpan panel utama
 
         Scene scene = new Scene(mainViewRoot, 1200, 800);
@@ -46,7 +45,7 @@ public class HelloApplication extends Application {
      */
     public static void showDetailView(Movie movie, LocalMovieData localData) { // <-- Tipe data diubah
         try {
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("MovieDetailView.fxml"));
+            FXMLLoader loader = new FXMLLoader(Application.class.getResource("MovieDetailView.fxml"));
             Parent detailRoot = loader.load();
             MovieDetailController controller = loader.getController();
 
